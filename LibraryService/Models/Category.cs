@@ -1,0 +1,14 @@
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace LibraryService.Models;
+public class Category
+    {
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        required  public int CategoryId { get; set; }
+        required  public string CategoryName { get; set; }
+        required public ICollection<Book> Books { get; set; }
+    }
+
