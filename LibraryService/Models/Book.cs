@@ -8,7 +8,7 @@ namespace LibraryService.Models;
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        required public int BookId{ get; set; }
+         required public int BookId{ get; set; }
 
          required public string Title { get; set; }
 
@@ -16,8 +16,8 @@ namespace LibraryService.Models;
 
          required public int PageCount{ get; set; }
 
-         required public ICollection<Author> Authors { get; set; }
+         required public ICollection<Author> Authors { get; set; } = new HashSet<Author>();
 
-         required public ICollection<Category> Categories { get; set; }
-    }
+         public ICollection<Category> Categories { get; set; } = new HashSet<Category>();
+}
 

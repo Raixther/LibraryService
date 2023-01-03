@@ -1,5 +1,4 @@
 using LibraryService.Database;
-using LibraryService.Services;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
@@ -20,7 +19,7 @@ builder.Services.AddDbContext<AppDbContext>(cfg=>{
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-app.MapGrpcService<GreeterService>();
+//app.MapGrpcService<AuthorService>();
 app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
 
 app.Run();
