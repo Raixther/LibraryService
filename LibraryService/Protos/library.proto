@@ -1,0 +1,205 @@
+﻿syntax = "proto3";
+
+package  library.v1;
+
+option csharp_namespace = "library";
+
+
+import "google/protobuf/empty.proto";
+
+
+enum ResponseStatus {
+	success = 0;
+	fail = 1;
+}
+
+
+service Author{
+	rpc GetById(GetAuthorByIdRequest) returns (GetAuthorResponse);
+	rpc GetAll(google.protobuf.Empty) returns (GetAllAuthorsResponse);
+	rpc Delete(DeleteAuthorRequest) returns (DeleteAuthorResponse);
+	rpc Create(CreateAuthorRequest) returns (CreateAuthorResponse);
+	rpc AddBook(AddBookToAuthorRequest) returns (AddBookToAuthorResponse);
+	rpc DeleteBook(DeleteBookFromAuthorRequest) returns (DeleteBookFromAuthorResponse);
+}
+
+message GetAuthorByIdRequest{
+	int32 author_id = 1;
+}
+
+message GetAuthorResponse{
+	string name = 1;
+	repeated GetBookResponse books = 2;
+	ResponseStatus status = 3;
+}
+
+message GetAllAuthorsResponse{
+	repeated GetAuthorResponse authors = 1;
+	ResponseStatus status = 2;
+}
+
+message DeleteAuthorRequest{
+	int32 author_id  = 1;
+}
+
+message DeleteAuthorResponse{
+	ResponseStatus status = 1;
+}
+
+message CreateAuthorRequest{
+	string name = 1;
+}
+
+message CreateAuthorResponse{
+	int32 author_id = 1;
+	ResponseStatus status = 2;
+}
+
+message AddBookToAuthorRequest{
+	int32 author_id = 1;
+	string book_title = 2;
+	string book_description=3;
+	int32 page_count =4;
+}
+
+message AddBookToAuthorResponse{
+	ResponseStatus status = 1;
+}
+
+message DeleteBookFromAuthorRequest{
+	 int32 author_id = 1;
+	 int32 book_id = 2;
+}
+message DeleteBookFromAuthorResponse{
+	ResponseStatus status = 1;
+}
+
+
+
+
+service Book{
+	rpc GetById(GetBookByIdRequest) returns (GetBookResponse);
+	rpc GetAll(google.protobuf.Empty) returns (GetAllBooksResponse);
+	rpc Delete(DeleteBookRequest) returns (DeleteBookResponse);
+	rpc Create(CreateBookRequest) returns (CreateBookResponse);
+	rpc AddAuthor(AddAuthorToBookRequest) returns (AddAurthorToBookResponse);
+	rpc AddCategory(AddCategoryToBookRequest) returns (AddCategoryToBookResponse);
+}
+
+
+message GetBookByIdRequest{
+	int32 id =1;
+}
+
+message GetBookResponse{
+	string title = 1;
+	string description = 2;
+	int32 page_count = 3;
+	repeated GetAuthorResponse authors = 4;
+	repeated GetCategoryResponse categories = 5;
+	ResponseStatus status = 6;
+}
+
+message GetAllBooksResponse{
+	repeated GetBookResponse books = 1;
+	ResponseStatus status = 2;
+}
+
+message DeleteBookRequest{
+	int32 book_id = 1;
+}
+
+message DeleteBookResponse{
+	ResponseStatus status = 1;
+}
+
+message CreateBookRequest{
+	string title = 1;
+	string description = 2;
+	int32 page_count =3;
+}
+
+message CreateBookResponse{
+	int32 book_id = 1;
+	ResponseStatus status = 2;
+}
+
+
+message AddAuthorToBookRequest{
+	int32 book_id = 1;
+	string author_name = 2;
+}
+
+message AddAurthorToBookResponse{
+	ResponseStatus status = 1;
+}
+
+message AddCategoryToBookRequest{
+	int32 book_id = 1;
+	string category_name = 2;
+}
+
+message AddCategoryToBookResponse{
+	ResponseStatus status = 1;
+}
+
+
+
+service Category{
+	rpc GetById(GetCategoryByIdRequest) returns (GetCategoryResponse);
+	rpc GetAll(google.protobuf.Empty) returns (GetAllCategoriesResponse);
+	rpc Delete(DeleteCategoryRequest) returns (DeleteCategoryResponse);
+	rpc Create(CreateCategoryRequest) returns (CreateCategoryResponse);
+	rpc AddBook(AddBookToCategoryRequest) returns (AddBookToCategoryResponse);
+	rpc DeleteBook(DeleteBookFromCategoryRequest) returns (DeleteBookFromCategoryResponse);
+}
+
+message GetCategoryByIdRequest{
+	int32 category_id = 1;
+}
+message GetCategoryResponse{
+	string name = 1;
+	repeated GetBookResponse books = 2;
+	ResponseStatus status =3;
+}
+
+message GetAllCategoriesResponse{
+	repeated GetCategoryResponse categories = 1;
+	ResponseStatus status = 2;
+}
+message DeleteCategoryRequest{
+	int32 category_id = 1;
+}
+
+message DeleteCategoryResponse{
+	ResponseStatus status = 1;
+}
+
+message CreateCategoryRequest{
+	string category_name = 1;
+}
+
+message CreateCategoryResponse{
+	int32 category_id = 1;
+	ResponseStatus status = 2;
+}
+
+message AddBookToCategoryRequest{
+	int32 category_id = 1;
+	string book_title = 2;
+	string book_description=3;
+	int32 page_count =4;
+}
+
+message AddBookToCategoryResponse{
+	ResponseStatus status = 1;
+}
+
+message DeleteBookFromCategoryRequest{
+	 int32 category_id = 1;
+	 int32 book_id = 2;
+}
+message DeleteBookFromCategoryResponse{
+	ResponseStatus status = 1;
+}
+

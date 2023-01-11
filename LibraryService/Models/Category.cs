@@ -7,7 +7,7 @@ public class Category
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        required  public int CategoryId { get; set; }
+        public int CategoryId { get; set; }
         required  public string CategoryName { get; set; }
         public ICollection<Book> Books { get; set; } = new HashSet<Book>();
     }

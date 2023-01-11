@@ -1,6 +1,8 @@
 ﻿using LibraryService.Database;
 using LibraryService.Models;
 
+using System.Net;
+
 namespace LibraryService.Repo.CategoryRepo
 {
     public class CategoryRepo : ICategoryRepo
@@ -12,7 +14,23 @@ namespace LibraryService.Repo.CategoryRepo
             this.dbContext=dbContext;
         }
 
-     
+        public Task AddBook(Book book, int categoryId)
+        {
+            try
+            {
+                var category = dbContext.Categories.FirstOrDefault(category => category.CategoryId==categoryId);
+                category.Books.Add(book);
+                book.Categories.Add(category);
+                dbContext.SaveChanges();
+                return Task.CompletedTask;
+
+            }
+            catch (Exception) 
+            {
+              throw; 
+            }
+        }
+
         public Task<int> Create(Category item)
         {
             try
@@ -21,9 +39,9 @@ namespace LibraryService.Repo.CategoryRepo
                 dbContext.SaveChanges();
                 return Task.FromResult(result.Entity.CategoryId);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return Task.FromException<int>(ex);
+                throw;
             }
         }
 
@@ -36,9 +54,33 @@ namespace LibraryService.Repo.CategoryRepo
                 return Task.CompletedTask;
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return Task.FromException(ex);
+                throw;
+            }
+        }
+
+        public Task DeleteBook(int bookId, int categoryId)
+        {
+            try
+            {
+                var category = dbContext.Categories.FirstOrDefault(x => x.CategoryId == categoryId);
+                var book = dbContext.Books.FirstOrDefault(x => x.BookId ==bookId);
+
+
+                var bookRef = category.Books.FirstOrDefault(x => x.BookId == bookId);
+
+                bookRef = null;
+
+                var categoryRef = book.Categories.FirstOrDefault(x => x.CategoryId == categoryId);
+                categoryRef = null;
+                return Task.CompletedTask;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
 
@@ -49,10 +91,7 @@ namespace LibraryService.Repo.CategoryRepo
                 var result = dbContext.Categories.AsEnumerable();
                 return Task.FromResult(result);
             }
-            catch (Exception ex)
-            {
-                return Task.FromException<IEnumerable<Category>>(ex);
-            }
+            catch (Exception) { throw; }
         }
 
         public Task<Category> GetById(int id)
@@ -62,10 +101,7 @@ namespace LibraryService.Repo.CategoryRepo
                 var result = dbContext.Categories.FirstOrDefault((category) => category.CategoryId== id);
                 return Task.FromResult<Category>(result);
             }
-            catch (Exception ex)
-            {
-                return Task.FromException<Category>(ex);
-            }
+            catch (Exception) { throw; }
         }
     }
 }
